@@ -1,0 +1,33 @@
+// Print Prime numbers from 0 to mx
+// 0 and 1 i not Prime number
+#include <cstdio>
+#include <cmath>
+using namespace std;
+#define mx 1000
+bool Check(int N,int Pos){return (bool)(N&(1<<Pos));}
+int Set(int N,int Pos) {return N=(N|(1<<Pos));}
+int status[(mx>>5)+2];
+void bitSieve()
+{
+    for(int i=3;i<=sqrt(mx);i=i+2)
+    {
+        if(!Check(status[i>>5],i&31))
+        {
+            for(int j=i*i;j<=mx;j+=i<<1)
+            {
+                status[j>>5]=Set(status[j>>5],j&31);
+            }
+        }
+    }
+}
+int main()
+{
+    bitSieve();
+    printf("2\t");
+    for(int i=3;i<=mx;i=i+2)
+    {
+        if(!Check(status[i>>5],i&31)) printf("%d\t",i);
+    }
+    printf("\n");
+    return 0;
+}
