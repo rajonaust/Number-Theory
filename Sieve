@@ -1,0 +1,31 @@
+// Print Prime numbers from 0 to mx
+// 0 and 1 i not Prime number
+#include <cstdio>
+#include <cmath>
+using namespace std;
+#define mx 1000
+char status[mx+2];
+void sieve()
+{
+    for(int i=3;i<=sqrt(mx);i=i+2)
+    {
+        if(status[i]==NULL)
+        {
+            for(int j=i*i;j<=mx;j+=i<<1)
+            {
+                status[j]='1';
+            }
+        }
+    }
+}
+int main()
+{
+    sieve();
+    printf("2\t");
+    for(int i=3;i<=mx;i=i+2)
+    {
+        if(status[i]==NULL) printf("%d\t",i);
+    }
+    printf("\n");
+    return 0;
+}
