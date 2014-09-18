@@ -1,0 +1,36 @@
+// Extended Euclid Algorithm
+// Ax + By = d ; calculate x , y , d
+// d = gcd(A,B)
+// Modulus Inverse calculates (A^-1)%mod
+#include <stdio.h>
+void extended_Euclid(int a, int b, int &x, int &y, int &d)
+{
+    if(b==0)
+    {
+        d=a;
+        x=1;
+        y=0;
+    }
+    else
+    {
+        extended_Euclid(b,a%b,y,x,d);
+        y=y-((a/b)*x);
+    }
+}
+int modulus_Inverse(int A,int mod)
+{
+    int x,y,d;
+    extended_Euclid(A,mod,x,y,d);
+    if(d>1) return 0;
+    int res=x%mod;
+    if(res<0) res=res+mod;
+    return res;
+}
+int main()
+{
+    int a , b , x , y , d ;
+    scanf("%d%d",&a,&b);
+    extended_Euclid(a,b,x,y,d);
+    printf("x = %d , y = %d , d = %d\n",x,y,d);
+    return 0;
+}
