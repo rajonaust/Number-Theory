@@ -1,0 +1,27 @@
+#include <stdio.h>
+int phi_function(int N)
+{
+    int res = N ;
+    if (N%2==0)
+    {
+           res=res-res/2;
+           while (N%2==0) N=N/2;
+    }
+    for(int i=3;i*i<=N;i=i+2)
+    {
+        if(N%i==0)
+        {
+            res = res - res/i;
+            while(N%i==0) N=N/i;
+        }
+    }
+    if(N>1) res = res - res/N;
+    return res;
+}
+int main()
+{
+    int N;
+    scanf("%d",&N);
+    printf("%d\n",phi_function(N));
+    return 0;
+}
