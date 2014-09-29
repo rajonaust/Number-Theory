@@ -25,7 +25,7 @@ void sieve()
         if(status[i]==NULL)
         {
             prime.push_back(i);
-            for(type j=i*i;j<=mx;j+=i*2) status[j]=NULL;
+            for(type j=i*i;j<=mx;j+=i*2) status[j]='1';
         }
     }
 }
