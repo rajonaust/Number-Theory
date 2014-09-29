@@ -1,0 +1,97 @@
+// Given a number , you have to find the divisors of the number .
+// Also find the number of divisors and summation of those divisors of the number .
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+#define mx 1000000
+typedef long long type;
+vector <type> prime , divisor ;
+char status[mx+10];
+type pow (type number,type p)
+{
+    type ans = 1 ;
+    for(type i=1;i<=p;i++)
+    {
+        ans*=number;
+    }
+    return ans;
+}
+void sieve()
+{
+    prime.push_back(2);
+    for(type i=3;i<=mx;i+=2)
+    {
+        if(status[i]==NULL)
+        {
+            prime.push_back(i);
+            for(type j=i*i;j<=mx;j+=i*2) status[j]=NULL;
+        }
+    }
+}
+void findingDivisors(type number)
+{
+    for(type i=1;i*i<=number;i++)
+    {
+        if(number%i==0) divisor.push_back(i);
+        if((number%i==0)&&(number/i)!=i) divisor.push_back(number/i);
+    }
+    sort(divisor.begin(),divisor.end());
+}
+type numberOfDivisors(type number)
+{
+    type ans = 1 ;
+    for(type i = 0 ;i<prime.size();i++)
+    {
+        if(prime[i]*prime[i]>number) break;
+        if(number%prime[i]==0)
+        {
+            type cnt = 0 ;
+            while(number%prime[i]==0)
+            {
+                number/=prime[i];
+                cnt++;
+            }
+            ans*=(cnt+1);
+        }
+    }
+    if(number!=1) ans*=2;
+    return ans;
+}
+type summationOfDivisors(type number)
+{
+    type ans = 1 ;
+    for(type i = 0 ;i<prime.size();i++)
+    {
+        if(prime[i]*prime[i]>number) break;
+        if(number%prime[i]==0)
+        {
+            type cnt = 0 ;
+            while(number%prime[i]==0)
+            {
+                number/=prime[i];
+                cnt++;
+            }
+            ans*=(pow(prime[i],cnt+1)-1)/(prime[i]-1);
+        }
+    }
+    if(number!=1) ans*=(pow(number,2)-1)/(number-1);
+    return ans;
+}
+int main()
+{
+    sieve();
+    int number ;
+    cin >> number ;
+
+    findingDivisors(number);
+    cout << "The divisors of " << number << " are = " ;
+    for(int i=0;i<divisor.size();i++) cout << divisor[i] << " " ;
+    cout << "\n";
+
+    cout << "Number of divisors = " << numberOfDivisors(number) << "\n" ;
+
+    cout << "Summation of divisors = " << summationOfDivisors(number) << "\n" ;
+
+    return 0;
+}
