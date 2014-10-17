@@ -1,4 +1,3 @@
-
 // Given a number , you have to find the divisors of the number .
 // Also find the number of divisors and summation of those divisors of the number .
 #include <iostream>
@@ -39,9 +38,9 @@ void finding_Divisors(type number)
     }
     sort(divisor.begin(),divisor.end());
 }
-type number_Of_Divisors(type number)
+void number_Of_Divisors(type number,type &total,type &even,type &odd)
 {
-    type ans = 1 ;
+    total = 1 ; odd = 1 ;
     for(type i = 0 ;i<prime.size();i++)
     {
         if(prime[i]*prime[i]>number) break;
@@ -53,11 +52,12 @@ type number_Of_Divisors(type number)
                 number/=prime[i];
                 cnt++;
             }
-            ans*=(cnt+1);
+            total*=(cnt+1);
+            if(prime[i]!=2) odd*=(cnt+1);
         }
     }
-    if(number!=1) ans*=2;
-    return ans;
+    if(number!=1) total*=2 , odd*=2 ;
+    even=total-odd;
 }
 type summation_Of_Divisors(type number)
 {
@@ -79,30 +79,6 @@ type summation_Of_Divisors(type number)
     if(number!=1) ans*=(pow(number,2)-1)/(number-1);
     return ans;
 }
-type number_Of_Odd_Divisors(type number)
-{
-    type ans = 1 ;
-    for(type i = 0 ;i<prime.size();i++)
-    {
-        if(prime[i]*prime[i]>number) break;
-        if(number%prime[i]==0)
-        {
-            type cnt = 0 ;
-            while(number%prime[i]==0)
-            {
-                number/=prime[i];
-                cnt++;
-            }
-            if(prime[i]%2==1)ans*=(cnt+1);
-        }
-    }
-    if(number!=1&&number%2==1) ans*=2;
-    return ans;
-}
-type number_Of_Even_Divisors(type number)
-{
-    return number_Of_Divisors(number) - number_Of_Odd_Divisors(number) ;
-}
 int main()
 {
     sieve();
@@ -114,11 +90,14 @@ int main()
     for(int i=0;i<divisor.size();i++) cout << divisor[i] << " " ;
     cout << "\n";
 
-    cout << "Number of divisors = " << number_Of_Divisors(number) << "\n" ;
+    type total , odd , even ;
+    number_Of_Divisors(number,total,even,odd);
 
-    cout << "Number of Even divisors = " << number_Of_Even_Divisors(number) << "\n" ;
+    cout << "Number of divisors = " << total << "\n" ;
 
-    cout << "Number of Odd divisors = " << number_Of_Odd_Divisors(number) << "\n" ;
+    cout << "Number of Even divisors = " << even << "\n" ;
+
+    cout << "Number of Odd divisors = " << odd << "\n" ;
 
     cout << "Summation of divisors = " << summation_Of_Divisors(number) << "\n" ;
 
