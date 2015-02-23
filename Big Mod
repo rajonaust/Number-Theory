@@ -13,7 +13,7 @@ long long big_mod(long long x,long long y,long long mod)
     }
     else
     {
-        return ( big_mod(x,y-1,mod) * x ) % mod ;
+        return ( big_mod(x,y-1,mod) * (x%mod) ) % mod ;
     }
 }
 int main()
