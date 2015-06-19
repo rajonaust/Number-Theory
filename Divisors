@@ -5,13 +5,13 @@
 #include <algorithm>
 using namespace std;
 #define mx 1000000
-typedef long long type;
-vector <type> prime , divisor ;
+typedef long long ll;
+vector <ll> prime , divisor ;
 char status[mx+10];
-type pow (type number,type p)
+ll power (ll number,ll p)
 {
-    type ans = 1 ;
-    for(type i=1;i<=p;i++)
+    ll ans = 1 ;
+    for(ll i=1;i<=p;i++)
     {
         ans*=number;
     }
@@ -20,33 +20,33 @@ type pow (type number,type p)
 void sieve()
 {
     prime.push_back(2);
-    for(type i=3;i<=mx;i+=2)
+    for(ll i=3;i<=mx;i+=2)
     {
         if(status[i]==NULL)
         {
             prime.push_back(i);
-            for(type j=i*i;j<=mx;j+=i*2) status[j]='1';
+            for(ll j=i*i;j<=mx;j+=i*2) status[j]='1';
         }
     }
 }
-void finding_Divisors(type number)
+void finding_Divisors(ll number)
 {
-    for(type i=1;i*i<=number;i++)
+    for(ll i=1;i*i<=number;i++)
     {
         if(number%i==0) divisor.push_back(i);
         if((number%i==0)&&(number/i)!=i) divisor.push_back(number/i);
     }
     sort(divisor.begin(),divisor.end());
 }
-void number_Of_Divisors(type number,type &total,type &even,type &odd)
+void number_Of_Divisors(ll number,ll &total,ll &even,ll &odd)
 {
     total = 1 ; odd = 1 ;
-    for(type i = 0 ;i<prime.size();i++)
+    for(ll i = 0 ;i<prime.size();i++)
     {
         if(prime[i]*prime[i]>number) break;
         if(number%prime[i]==0)
         {
-            type cnt = 0 ;
+            ll cnt = 0 ;
             while(number%prime[i]==0)
             {
                 number/=prime[i];
@@ -59,24 +59,24 @@ void number_Of_Divisors(type number,type &total,type &even,type &odd)
     if(number!=1) total*=2 , odd*=2 ;
     even=total-odd;
 }
-type summation_Of_Divisors(type number)
+ll summation_Of_Divisors(ll number)
 {
-    type ans = 1 ;
-    for(type i = 0 ;i<prime.size();i++)
+    ll ans = 1 ;
+    for(ll i = 0 ;i<prime.size();i++)
     {
         if(prime[i]*prime[i]>number) break;
         if(number%prime[i]==0)
         {
-            type cnt = 0 ;
+            ll cnt = 0 ;
             while(number%prime[i]==0)
             {
                 number/=prime[i];
                 cnt++;
             }
-            ans*=(pow(prime[i],cnt+1)-1)/(prime[i]-1);
+            ans*=(power(prime[i],cnt+1)-1)/(prime[i]-1);
         }
     }
-    if(number!=1) ans*=(pow(number,2)-1)/(number-1);
+    if(number!=1) ans*=(number+1); // Avoiding overflow .
     return ans;
 }
 int main()
@@ -90,7 +90,7 @@ int main()
     for(int i=0;i<divisor.size();i++) cout << divisor[i] << " " ;
     cout << "\n";
 
-    type total , odd , even ;
+    ll total , odd , even ;
     number_Of_Divisors(number,total,even,odd);
 
     cout << "Number of divisors = " << total << "\n" ;
@@ -103,3 +103,24 @@ int main()
 
     return 0;
 }
+
+/*
+575
+*/
+/*
+The divisors of 575 are = 1 5 23 25 115 575
+Number of divisors = 6
+Number of Even divisors = 0
+Number of Odd divisors = 6
+Summation of divisors = 744
+*/
+/*
+12
+*/
+/*
+The divisors of 12 are = 1 2 3 4 6 12
+Number of divisors = 6
+Number of Even divisors = 4
+Number of Odd divisors = 2
+Summation of divisors = 28
+*/
