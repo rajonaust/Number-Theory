@@ -1,0 +1,63 @@
+/* Modular Multiplicative Inverse */
+/* Give A and MOD and it will calculate (A^-1)%MOD; */
+/* A and MOD must be co-prime to each other . It means GCD(A,MOD) = 1 . */
+#include <iostream>
+using namespace std;
+long long big_mod(long long a,long long b,long long MOD)
+{
+    if(b==0) return 1 ;
+    if(b==1) return a ;
+    if(b%2) return (big_mod(a,b-1,MOD)*a)%MOD;
+    else
+    {
+        long long x = big_mod(a,b/2,MOD);
+        return (x*x)%MOD;
+    }
+}
+long long modulus_Inverse(long long A,long long MOD)
+{
+    return big_mod(A,MOD-2,MOD);
+}
+int main()
+{
+    long long A , MOD ;
+    cin >> A >> MOD ;
+    cout << modulus_Inverse(A,MOD) << endl ;
+    return 0;
+}
+/*
+5 11
+*/
+/*
+9
+*/
+/*
+27 1000000009
+*/
+/*
+296296299
+*/
+/*
+120 97
+*/
+/*
+37
+*/
+/*
+5 2
+*/
+/*
+1
+*/
+/*
+2 3
+*/
+/*
+2
+*/
+/*
+3 2
+*/
+/*
+1
+*/
